@@ -1,0 +1,653 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /:
+    get:
+      operationId: listSwaggerSchemas
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/coreapi+json:
+              schema:
+                type: array
+                items: {}
+            application/openapi+json:
+              schema:
+                type: array
+                items: {}
+            text/html:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - ''
+  /api/category/:
+    get:
+      operationId: listCategorys
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+          description: ''
+      tags:
+      - api
+  /api/category/{id}/:
+    get:
+      operationId: retrieveCategory
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this Mahsulot Kategoriyasi.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+      tags:
+      - api
+  /api/brand-list/:
+    get:
+      operationId: listBrands
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Brand'
+          description: ''
+      tags:
+      - api
+  /api/brand/{id}/:
+    get:
+      operationId: retrieveBrand
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this Brend.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+      tags:
+      - api
+  /api/product/:
+    get:
+      operationId: listProducts
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+  /api/product/new/:
+    get:
+      operationId: listProducts
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+  /api/product/{id}/:
+    get:
+      operationId: retrieveProduct
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this Mahsulot.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+  /api/banner/:
+    get:
+      operationId: listBanners
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Banner'
+          description: ''
+      tags:
+      - api
+  /api/user/:
+    get:
+      operationId: listUsers
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+  /api/user/{phone}:
+    get:
+      operationId: retrieveUser
+      description: ''
+      parameters:
+      - name: phone
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateUser
+      description: ''
+      parameters:
+      - name: phone
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateUser
+      description: ''
+      parameters:
+      - name: phone
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyUser
+      description: ''
+      parameters:
+      - name: phone
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/order-list/:
+    get:
+      operationId: listOrders
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+          description: ''
+      tags:
+      - api
+  /api/product-create/:
+    post:
+      operationId: createProduct
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+  /api/register/:
+    post:
+      operationId: createCustomUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+      tags:
+      - api
+  /api/order/:
+    post:
+      operationId: createOrder
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderCreate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCreate'
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 223
+        children:
+          type: string
+          readOnly: true
+      required:
+      - title
+    SubCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 223
+      required:
+      - title
+    Brand:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+        image:
+          type: string
+          format: binary
+      required:
+      - name
+      - image
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          type: integer
+        name:
+          type: string
+          nullable: true
+          maxLength: 223
+        category:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              title:
+                type: string
+                maxLength: 223
+              children:
+                type: string
+                readOnly: true
+            required:
+            - title
+          readOnly: true
+        brand:
+          type: integer
+          nullable: true
+        price:
+          type: number
+        discount:
+          type: number
+          nullable: true
+        get_discounted_price:
+          type: string
+          readOnly: true
+        made_in:
+          type: string
+          maxLength: 50
+        consists:
+          type: string
+        capacity:
+          type: string
+          nullable: true
+          maxLength: 20
+        guarantee:
+          type: string
+          nullable: true
+          maxLength: 30
+        product_images:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              get_image_url:
+                type: string
+                readOnly: true
+      required:
+      - price
+      - made_in
+      - consists
+      - product_images
+    Banner:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+      required:
+      - image
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 200
+        phone:
+          type: string
+          readOnly: true
+        city:
+          enum:
+          - Andijan
+          - Bukhara
+          - Jizzakh
+          - Kashkadarya
+          - Navoi
+          - Namangan
+          - Samarkand
+          - Sirdarya
+          - Surkhandarya
+          - Tashkent
+          - Fergana
+          - Khorezm
+          type: string
+      required:
+      - full_name
+      - city
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client:
+          type: integer
+          nullable: true
+        phone:
+          type: string
+          maxLength: 21
+        address:
+          type: string
+          maxLength: 221
+        zipcode:
+          type: integer
+        note:
+          type: string
+          nullable: true
+          maxLength: 250
+        order_products:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              product:
+                type: integer
+                nullable: true
+              quantity:
+                type: integer
+              summa:
+                type: number
+                nullable: true
+            required:
+            - quantity
+        get_quantity:
+          type: string
+          readOnly: true
+        get_summa:
+          type: string
+          readOnly: true
+      required:
+      - phone
+      - address
+      - zipcode
+      - order_products
+    Register:
+      type: object
+      properties:
+        phone:
+          type: string
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 17
+        password:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        city:
+          enum:
+          - Andijan
+          - Bukhara
+          - Jizzakh
+          - Kashkadarya
+          - Navoi
+          - Namangan
+          - Samarkand
+          - Sirdarya
+          - Surkhandarya
+          - Tashkent
+          - Fergana
+          - Khorezm
+          type: string
+      required:
+      - phone
+      - password
+      - password2
+      - first_name
+      - last_name
+      - city
+    OrderCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client:
+          type: integer
+          nullable: true
+        phone:
+          type: string
+          maxLength: 21
+        address:
+          type: string
+          maxLength: 221
+        zipcode:
+          type: integer
+        note:
+          type: string
+          nullable: true
+          maxLength: 250
+        order_products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: integer
+                nullable: true
+              quantity:
+                type: integer
+            required:
+            - quantity
+      required:
+      - phone
+      - address
+      - zipcode
+      - order_products
