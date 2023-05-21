@@ -8,6 +8,10 @@ class OrderItemsTabularInline(admin.TabularInline):
     extra = 1
 
 
+class OrderItemAdmin(admin.ModelAdmin):
+    readonly_fields = ('order', 'product', 'quantity', 'summa')
+
+
 class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemsTabularInline]
     list_display = ('id', 'client', 'phone', 'get_quantity', 'get_summa', 'status', 'created_at')
@@ -16,5 +20,5 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('client', 'phone', 'address', 'zipcode', 'note', 'created_at',)
 
 
-admin.site.register(OrderItems)
+admin.site.register(OrderItems, OrderItemAdmin)
 admin.site.register(Order, OrderAdmin)
