@@ -25,4 +25,4 @@ class OrderCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        serializer.save(client=user)
+        serializer.save(client=user.user_set.first())
