@@ -3,6 +3,7 @@ from django.db import models
 
 # from apps.account.models import Account
 from tuitshop import settings
+from ckeditor.fields import RichTextField
 
 
 class Timestamp(models.Model):
@@ -61,7 +62,7 @@ class Product(Timestamp):
     price = models.FloatField(verbose_name="Tan narxi")
     discount = models.FloatField(null=True, blank=True, verbose_name="Chegirma")
     made_in = models.CharField(max_length=50, verbose_name="Ishlab chiqarilgan davlat")  # ishlab chiqarilgan joy
-    consists = models.TextField(verbose_name="Maxsulot haqida ma'lumot")
+    consists = RichTextField(verbose_name="Maxsulot haqida ma'lumot")
     capacity = models.CharField(max_length=20, verbose_name="Maxsulotning og'irligi", null=True, blank=True)  # sig'imi
     guarantee = models.CharField(max_length=30, verbose_name="Maxsulot kafolati", null=True, blank=True)  # muddat
     is_active = models.BooleanField(default=True)

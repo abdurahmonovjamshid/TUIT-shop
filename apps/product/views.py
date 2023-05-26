@@ -44,10 +44,11 @@ class ProductListAPIView(generics.ListAPIView):
 
         param_condition = Q()
         if param:
+            print(param)
             param_condition = Q(name__icontains=param)
         cat_condition = Q()
         if cat:
-            cat_condition = Q(category__name__icontains=cat)
+            cat_condition = Q(category__title__icontains=cat)
 
         qs = qs.filter(param_condition, cat_condition)
         return qs
