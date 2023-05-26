@@ -59,11 +59,12 @@ class CustomUser(AbstractUser):
 class User(models.Model):
     phone = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # pic = models.ImageField(upload_to='user_image', default="avatar.svg")
-    full_name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
     city = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return self.full_name
+        return self.first_name + ' ' + self.last_name
 
 
 class BaseAbstractDate(models.Model):

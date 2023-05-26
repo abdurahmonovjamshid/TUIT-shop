@@ -38,12 +38,41 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user = User.objects.create(
             phone=custom_user,
-            full_name=validated_data['first_name'] + ' ' + validated_data['last_name'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
             city=validated_data['city']
         )
         user.save()
 
         return custom_user
+
+
+class ChangeNewPasswordSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(min_length=6, max_length=64, write_only=True)
+    password = serializers.CharField(min_length=6, max_length=64, write_only=True)
+    password2 = serializers.CharField(min_length=6, max_length=64, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('old_password', 'password' 'password2')
+
+    def validate(self, attrs):
+        old_password = attrs.get('old_password')
+        password = attrs.get('password')
+        password2 = attrs.get('password2')
+        request = self.context.get('request')
+        user = request.user
+        if not user.check_password(old_password):
+            raise serializers.ValidationError({
+                'success': False, 'message': 'Old password did not match, please try again'
+            })
+        if password != password2:
+            raise serializers.ValidationError({
+                'success': False, 'message': 'Password did not match, please try again'
+            })
+        user.set_password(password)
+        user.save()
+        return attrs
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -55,12 +84,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'full_name', 'phone', 'city']
+        fields = ['id', 'first_name', 'last_name', 'phone', 'city']
 
     def to_representation(self, obj):
         return {
             'id': obj.id,
-            'full_name': obj.full_name,
+            'first_name': obj.first_name,
+            'last_name': obj.last_name,
             # 'pic': 'http://127.0.0.1:8000' + obj.pic.url,
             'phone': obj.phone.phone,
             'city': obj.city,

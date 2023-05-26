@@ -3,9 +3,9 @@ from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      get_object_or_404, )
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
-
 from apps.base.models import CustomUser, User
 from apps.base.serializers import RegisterSerializer, UserSerializer
+from .permission import IsOwnUserOrReadOnly
 
 
 # Create your views here.
@@ -24,17 +24,17 @@ class UserListView(ListAPIView):
 class UserDetailView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.filter()
     serializer_class = UserSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsOwnUserOrReadOnly,)
     lookup_field = 'phone'
 
     def retrieve(self, request, *args, **kwargs):
-        user = get_object_or_404(CustomUser, phone='+' + kwargs['phone'])
+        user = get_object_or_404(CustomUser, phone=kwargs['phone'])
         serializer = UserSerializer(get_object_or_404(User, phone=user), many=False)
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
-        instance = get_object_or_404(CustomUser, phone='+' + kwargs['phone'])
+        instance = get_object_or_404(CustomUser, phone=kwargs['phone'])
         serializer = UserSerializer(get_object_or_404(User, phone=instance), data=request.data, partial=partial,
                                     many=False)
         serializer.is_valid(raise_exception=True)

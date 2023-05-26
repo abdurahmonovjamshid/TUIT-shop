@@ -3,7 +3,7 @@ from .models import User, CustomUser
 
 
 class UserAdmin(admin.ModelAdmin):
-    readonly_fields = ('id', 'phone', 'full_name', 'city')
+    readonly_fields = ('id', 'phone', 'first_name', 'last_name', 'city')
     # prepopulated_fields = {"slug": ("username",)}
 
 
