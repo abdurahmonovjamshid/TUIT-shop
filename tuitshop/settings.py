@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'ckeditor',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -53,6 +56,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -62,6 +66,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = (
+    "https://pythonanywhere.com",
+    "http://localhost:3000",
+)
+
+CORS_ALLOW_METHODS = [
+    '*'
+]
+
+CORS_ALLOW_HEADERS = [
+    '*'
+]
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'tuitshop.urls'
 # LOGIN_REDIRECT_URL = '/'
@@ -202,8 +220,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOCAL_BASE_URL = 'http://127.0.0.1:8000/'
-PROD_BASE_URL = 'http://localhost:3000'
+LOCAL_BASE_URL = 'http://tuitshoptest.pythonanywhere.com'
+PROD_BASE_URL = 'http://tuitshoptest.pythonanywhere.com'
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),

@@ -60,10 +60,12 @@ class Product(Timestamp):
     status = models.IntegerField(choices=STATUS, default=0, verbose_name="Holati")
     name = models.CharField(max_length=223, null=True, verbose_name="Maxsulot nomi")
     category = models.ManyToManyField(Category, blank=True,
-                                      limit_choices_to={'is_active': True, 'parent_category__isnull': False})
+                                      limit_choices_to={'is_active': True, 'parent__isnull': False})
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField(verbose_name="Tan narxi")
+
     rating = models.PositiveIntegerField(default=80)
+
     discount = models.FloatField(null=True, blank=True, verbose_name="Chegirma")
     made_in = models.CharField(max_length=50, verbose_name="Ishlab chiqarilgan davlat")  # ishlab chiqarilgan joy
     consists = RichTextField(verbose_name="Maxsulot haqida ma'lumot")
