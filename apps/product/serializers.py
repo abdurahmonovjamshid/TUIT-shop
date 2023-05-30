@@ -12,7 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
 
     def get_children(self, obj):
-        qs = Category.objects.filter(parent_category=obj, is_active=True)
+        qs = Category.objects.filter(parent=obj, is_active=True)
         sz = SubCategorySerializer(qs, many=True)
         return sz.data
 
@@ -52,6 +52,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   'category',
                   'brand',
                   'price',
+                  'rating',
                   'discount',
                   'get_discounted_price',
                   'made_in',

@@ -6,7 +6,7 @@ from .serializers import CategorySerializer, BannerSerializer, BrandSerializer, 
 
 
 class CategoryListAPIView(generics.ListAPIView):
-    queryset = Category.objects.filter(is_active=True, parent_category__isnull=True).order_by('-id')
+    queryset = Category.objects.filter(is_active=True, parent__isnull=True).order_by('-id')
     serializer_class = CategorySerializer
 
 

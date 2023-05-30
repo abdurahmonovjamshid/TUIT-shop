@@ -1,12 +1,14 @@
 from django.contrib import admin
 from .models import Product, ProductImage, Brand, Banner, Category
 from modeltranslation.admin import TranslationAdmin
+from mptt.admin import DraggableMPTTAdmin
 
 
-class CategoryAdmin(TranslationAdmin):
-    list_display = ('id', 'title', 'parent_category', 'is_active', 'date_created')
-    list_filter = ('parent_category', 'is_active', 'date_created')
-    autocomplete_fields = ('parent_category',)
+class CategoryAdmin(DraggableMPTTAdmin, TranslationAdmin):
+    mptt_indent_field = "title"
+    list_display = ('tree_actions', 'indented_title', 'parent', 'is_active', 'date_created', 'id')
+    list_filter = ('parent', 'is_active', 'date_created')
+    autocomplete_fields = ('parent',)
     search_fields = ('title',)
 
 

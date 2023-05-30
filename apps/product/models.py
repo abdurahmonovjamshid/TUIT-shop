@@ -4,6 +4,7 @@ from django.db import models
 # from apps.account.models import Account
 from tuitshop import settings
 from ckeditor.fields import RichTextField
+from mptt.models import MPTTModel
 
 
 class Timestamp(models.Model):
@@ -14,17 +15,19 @@ class Timestamp(models.Model):
         abstract = True
 
 
-class Category(models.Model):
-    class Meta:
+class Category(MPTTModel, models.Model):
+    class MPTTMeta:
         verbose_name = "Mahsulot Kategoriyasi"
         verbose_name_plural = "Mahsulot Kategoriyalari"
+        order_insertion_by = ['title']
 
-    parent_category = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Parent Category',
-                                        limit_choices_to={'is_active': True, 'parent_category__isnull': True},
-                                        related_name='children', null=True, blank=True, )
-    title = models.CharField(max_length=223)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Parent Category',
+                               limit_choices_to={'is_active': True, 'parent__isnull': True},
+                               related_name='children', null=True, blank=True, )
+    title = models.CharField(max_length=223, null=True)
+    icon = models.ImageField(upload_to='category', null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.title
@@ -60,6 +63,7 @@ class Product(Timestamp):
                                       limit_choices_to={'is_active': True, 'parent_category__isnull': False})
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField(verbose_name="Tan narxi")
+    rating = models.PositiveIntegerField(default=80)
     discount = models.FloatField(null=True, blank=True, verbose_name="Chegirma")
     made_in = models.CharField(max_length=50, verbose_name="Ishlab chiqarilgan davlat")  # ishlab chiqarilgan joy
     consists = RichTextField(verbose_name="Maxsulot haqida ma'lumot")

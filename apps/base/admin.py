@@ -7,5 +7,5 @@ class UserAdmin(admin.ModelAdmin):
     # prepopulated_fields = {"slug": ("username",)}
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User)
 # admin.site.register(CustomUser)
