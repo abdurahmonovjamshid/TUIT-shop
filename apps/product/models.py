@@ -60,6 +60,7 @@ class Product(Timestamp):
                                       limit_choices_to={'is_active': True, 'parent_category__isnull': False})
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField(verbose_name="Tan narxi")
+    rating = models.PositiveIntegerField(max_length=100, default=80)
     discount = models.FloatField(null=True, blank=True, verbose_name="Chegirma")
     made_in = models.CharField(max_length=50, verbose_name="Ishlab chiqarilgan davlat")  # ishlab chiqarilgan joy
     consists = RichTextField(verbose_name="Maxsulot haqida ma'lumot")

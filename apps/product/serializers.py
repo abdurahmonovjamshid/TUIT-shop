@@ -52,6 +52,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   'category',
                   'brand',
                   'price',
+                  'rating',
                   'discount',
                   'get_discounted_price',
                   'made_in',

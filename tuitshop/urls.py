@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 from django.conf.urls.static import static
@@ -22,6 +22,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from django.views.static import serve
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -54,6 +55,9 @@ urlpatterns = i18n_patterns(
     path('api/', include('apps.base.urls')),
     path('api/', include('apps.order.urls')),
     path('api/', include('apps.contact.urls')),
+
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 )
 
 if settings.DEBUG:
