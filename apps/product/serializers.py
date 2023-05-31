@@ -18,7 +18,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'title', 'children']
+        fields = ['id', 'title', 'children', 'icon']
 
 
 class BrandSerializer(serializers.ModelSerializer):
@@ -70,3 +70,39 @@ class BannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Banner
         fields = ['image']
+
+
+class ProductImageCreateSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=True)
+
+    class Meta:
+        model = ProductImage
+        fields = ('image', 'is_active')
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    product_images = ProductImageCreateSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = [
+            'status',
+            'name',
+            'category',
+            'brand',
+            'price',
+            'rating',
+            'discount',
+            'made_in',
+            'consists',
+            'capacity',
+            'guarantee',
+            'product_images']
+
+    def create(self, validated_data):
+        images = validated_data.pop('product_images')
+        product = Product.objects.create(**validated_data)
+        print(images)
+        for item in images:
+            ProductImage.objects.create(product=product, **item)
+        return product
