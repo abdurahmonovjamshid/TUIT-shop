@@ -1,8 +1,10 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from django.db.models import Q
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.response import Response
+
 from apps.product.models import *
-from .serializers import CategorySerializer, BannerSerializer, BrandSerializer, ProductSerializer, SubCategorySerializer
+from .serializers import ProductCreateSerializer, CategorySerializer, BannerSerializer, BrandSerializer, \
+    ProductSerializer, SubCategorySerializer
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -29,8 +31,16 @@ class BrandRetrieveAPIView(generics.RetrieveAPIView):
 
 class ProductCreateAPIView(generics.CreateAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    serializer_class = ProductCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    # permission_classes = (permissions.IsAdminUser,)
 
 
 class ProductListAPIView(generics.ListAPIView):
