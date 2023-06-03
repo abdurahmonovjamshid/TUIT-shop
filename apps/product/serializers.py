@@ -39,11 +39,6 @@ class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True)
     category = CategorySerializer(many=True, read_only=True)
 
-    # def get_images(self, obj):
-    #     qs = ProductImage.objects.filter(is_active=True, product=obj)
-    #     sz = ProductImageSerializer(instance=qs, many=True)
-    #     return sz.data
-
     class Meta:
         model = Product
         fields = ['id',
@@ -77,11 +72,13 @@ class ProductImageCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductImage
-        fields = ('image', 'is_active')
+        fields = ('product', 'image', 'is_active')
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    product_images = ProductImageCreateSerializer(many=True)
+    product_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True, required=False)
 
     class Meta:
         model = Product
@@ -100,9 +97,11 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             'product_images']
 
     def create(self, validated_data):
-        images = validated_data.pop('product_images')
+        uploaded_images = validated_data.pop("product_images")
+        category = validated_data.pop('category')
         product = Product.objects.create(**validated_data)
-        print(images)
-        for item in images:
-            ProductImage.objects.create(product=product, **item)
+        product.category.set(category)
+        print(uploaded_images)
+        for image in uploaded_images:
+            ProductImage.objects.create(product=product, image=image)
         return product

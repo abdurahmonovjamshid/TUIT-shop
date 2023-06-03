@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
+from django.dispatch import receiver  # add this
+from django.db.models.signals import post_save  # add this
 
 
 class UserManager(BaseUserManager):
@@ -63,8 +65,18 @@ class User(models.Model):
     last_name = models.CharField(max_length=200, null=True, blank=True)
     city = models.CharField(max_length=50, blank=True, null=True)
 
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
+    @receiver(post_save, sender=CustomUser)  # add this
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            User.objects.create(phone=instance, first_name=instance.first_name, last_name=instance.last_name)
+
+    @receiver(post_save, sender=CustomUser)  # add this
+    def save_user_profile(sender, instance, **kwargs):
+        user = instance.user_set.first()
+        user.phone = instance
+        user.first_name = instance.first_name
+        user.last_name = instance.last_name
+        user.save()
 
 
 class BaseAbstractDate(models.Model):
